@@ -1,198 +1,210 @@
 #include <iostream>
 using namespace std;
 
+double sumar(double a, double b);
+
 int main()
 {
 
-    string mensajeSolicitudOpcion = "INGRESE LA OPCION PARA EL PRODUCTO\n";
-    string productos = "\n 1. CAFÉ $2000"
-                       "\n 2. JUGO NATURAL $4000"
-                       "\n 3. SANDWICH $7000"
-                       "\n 4. EMPANADA $2500"
-                       "\n 5. FINALIZAR JORNADA \n";
-    int codigoProducto = 0;
-    char letraMayor = ' ';
-    int
-        cantidadProdutos = 0,
-        numeroTransacciones = 0,
-        mayor = 0,
-        menor = 0;
-    double subtotal = 0,
-           precioProduto = 0,
-           precioCafe = 2000,
-           precioJugo = 4000,
-           precioEmpanada = 2500,
-           precioSandwich = 7000,
-           descuento = 0;
+    // Variables generales
+    int opcion;
+    int codigo;
+    int cantidad;
 
-    // CONTADORES
-    int contadorCafe = 0,
-        contadorJugo = 0,
-        contadorSandwich = 0,
-        contadorEmpanada = 0,
-        contadorGlobalCafe = 0,
-        contadorGlobalJugo = 0,
-        contadorGlobalSandwich = 0,
-        contadorGlobalEmpanada = 0;
+    // Variables para los productos
+    double precio = 0;
+    double subtotal;
+    double descuento;
+    double totalPagar;
 
-    // ACUMULADORES
-    double totalCafeTransacc = 0,
-           totalJugoTransacc = 0,
-           totalSandwichTransacc = 0,
-           totalEmpanadaTransacc = 0,
-           totalVendidoJornada = 0;
-
-    // BANDERAS
-    bool finTransaccion = false, finJornada = false, opcionInvalida = false;
+    // Contadores y acumuladores
+    double acumuladoVentas = 0;
+    int totalPrendas = 0;
+    int cantidadVentas = 0;
+    double resultado = 0;
 
     do
     {
-        opcionInvalida = false;
-        // ESTE CICLO NOS VA A PERMITIR IR ITERANDO POR CADA TRANSACCION
-        /*----------------------------------------ENTRADA----------------------------------------*/
-        cout << mensajeSolicitudOpcion << productos;
-        cin >> codigoProducto;
 
-        // Este ciclo nos permite solicitarle al usuario las veces que sean necesarias una cantidad de productos mayor a cero
-        while (cantidadProdutos <= 0 && codigoProducto < 5 && codigoProducto > 0)
+        cout << "\n========== TIENDA DE ROPA ==========" << endl;
+        cout << "1. Registrar una venta" << endl;
+        cout << "2. Consultar el total de ventas" << endl;
+        cout << "3. Consultar la cantidad de prendas vendidas" << endl;
+        cout << "4. Consultar el promedio de venta" << endl;
+        cout << "5. Salir del programa" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion)
         {
-            cout << "Ingrese la cantidad de produtos a comprar: \t";
-            cin >> cantidadProdutos;
-            if (cantidadProdutos <= 0)
-                cout << "La cantidad de productos debe ser mayor a cero \n";
-        }
-        /*----------------------------------------FIN ENTRADA----------------------------------------*/
-        /*----------------------------------------PROCESO----------------------------------------*/
-        // Este SWITCH nos permite asignar el precio al producto dependiendo de la opción que ingrese el usuario
-        switch (codigoProducto)
-        {
+
         case 1:
-            precioProduto = precioCafe; // PRECIO DEL CAFÉ
-            contadorCafe = cantidadProdutos + contadorCafe;
+            //REGISTRAR VENTA
+            resultado = sumar(5.7, 5.8);
+            cout << "\n========== PRODUCTOS ==========" << endl;
+            cout << "1. Camisa    - $45.000" << endl;
+            cout << "2. Pantalon  - $85.000" << endl;
+            cout << "3. Chaqueta  - $150.000" << endl;
+            cout << "4. Zapatos   - $120.000" << endl;
+
+            // Validar el codigo del producto
+            cout << "\nIngrese el codigo del producto: ";
+            cin >> codigo;
+
+            while (codigo < 1 || codigo > 4)
+            {
+                cout << "Codigo inexistente. Intente nuevamente: ";
+                cin >> codigo;
+            }
+
+            // Asignar el precio segun el producto
+            if (codigo == 1)
+            {
+                precio = 45000;
+            }
+            else if (codigo == 2)
+            {
+                precio = 85000;
+            }
+            else if (codigo == 3)
+            {
+                precio = 150000;
+            }
+            else
+            {
+                precio = 120000;
+            }
+            //VALIDAR CANTIDAD MAYOR A CERO
+            do
+            {
+                cout << "La cantidad debe ser mayor que cero. "
+                     << "Ingrese nuevamente: ";
+                cin >> cantidad;
+            } while (cantidad <= 0);
+
+            subtotal = precio * cantidad;
+
+            // Calcular descuento
+            if (subtotal < 100000)
+            {
+                descuento = 0;
+            }
+            else if (subtotal < 200000)
+            {
+                descuento = subtotal * 0.05;
+            }
+            else if (subtotal < 350000)
+            {
+                descuento = subtotal * 0.10;
+            }
+            else
+            {
+                descuento = subtotal * 0.15;
+            }
+
+            // Calcular total a pagar
+            totalPagar = subtotal - descuento;
+
+            // Mostrar informacion de la venta
+            cout << "\n========== DETALLE DE VENTA ==========" << endl;
+
+            if (codigo == 1)
+            {
+                cout << "Producto: Camisa" << endl;
+            }
+            else if (codigo == 2)
+            {
+                cout << "Producto: Pantalon" << endl;
+            }
+            else if (codigo == 3)
+            {
+                cout << "Producto: Chaqueta" << endl;
+            }
+            else
+            {
+                cout << "Producto: Zapatos" << endl;
+            }
+
+            cout << "Cantidad comprada: " << cantidad << endl;
+            cout << "Precio unitario: $" << precio << endl;
+            cout << "Subtotal: $" << subtotal << endl;
+            cout << "Descuento aplicado: $" << descuento << endl;
+            cout << "Total a pagar: $" << totalPagar << endl;
+
+            // Actualizar acumuladores y contadores
+            acumuladoVentas = acumuladoVentas + totalPagar;
+            totalPrendas = totalPrendas + cantidad;
+            cantidadVentas = cantidadVentas + 1;
+
+            cout << "\nVenta registrada exitosamente." << endl;
+
             break;
 
         case 2:
-            precioProduto = precioJugo; // PRECIO DEL JUGO NATURAL
-            contadorJugo = cantidadProdutos + contadorJugo;
+
+            cout << "\n========== TOTAL DE VENTAS ==========" << endl;
+
+            if (cantidadVentas == 0)
+            {
+                cout << "No hay ventas disponibles." << endl;
+            }
+            else
+            {
+                cout << "Total acumulado de ventas: $"
+                     << acumuladoVentas << endl;
+            }
 
             break;
+
         case 3:
-            precioProduto = precioSandwich; // PRECIO DEL SANDWICH
-            contadorSandwich = cantidadProdutos + contadorSandwich;
+
+            cout << "\n========== PRENDAS VENDIDAS ==========" << endl;
+            cout << "Cantidad total de prendas vendidas: "
+                 << totalPrendas << endl;
+
             break;
 
         case 4:
-            precioProduto = precioEmpanada; // PRECIO DE LA EMPANADA
-            contadorEmpanada = cantidadProdutos + contadorEmpanada;
+
+            cout << "\n========== PROMEDIO DE VENTAS ==========" << endl;
+
+            if (cantidadVentas == 0)
+            {
+                cout << "No es posible calcular el promedio. "
+                     << "No hay ventas registradas." << endl;
+            }
+            else
+            {
+                cout << "Promedio de venta: $"
+                     << acumuladoVentas / cantidadVentas << endl;
+            }
+
             break;
+
         case 5:
 
-            cout << "Hasta pronto\n";
-            finJornada = true;
+            cout << "\nGracias por utilizar el sistema "
+                 << "de la tienda de ropa." << endl;
+
+            cout << "Hasta pronto." << endl;
 
             break;
 
         default:
-            cout << "Opcion no valida";
-            opcionInvalida = true;
+
+            cout << "\nOpcion incorrecta. "
+                 << "Seleccione una opcion entre 1 y 5." << endl;
+
             break;
         }
-        if (codigoProducto > 0 && codigoProducto < 5)
-        {
 
-            do
-            {
-                cout << "Desea agregar más producto a la transacción? \n1: SI\n0: NO\n"; // 0 = false, 1 = true
-                cin >> finTransaccion;
-            } while (finTransaccion != 0 && finTransaccion != 1);
-        }
-
-        if (!finTransaccion && !finJornada && !opcionInvalida)
-        {
-            // SE REALIZAN LOS CALCULOS DE CUANTO FUE EL TOTAL POR CADA PRODUCTO
-            totalCafeTransacc = contadorCafe * precioCafe;
-            totalEmpanadaTransacc = contadorEmpanada * precioEmpanada;
-            totalJugoTransacc = contadorJugo * precioJugo;
-            totalSandwichTransacc = contadorSandwich * precioSandwich;
-
-            subtotal = totalCafeTransacc + totalJugoTransacc + totalEmpanadaTransacc + totalSandwichTransacc;
-            if (contadorCafe >= 5 || contadorEmpanada >= 5 || contadorJugo >= 5 || contadorSandwich >= 5)
-                subtotal = subtotal * 0.90; // Se aplica descuento si se compra mas de 5 elementos de un mismo producto
-
-            totalVendidoJornada = totalVendidoJornada + subtotal;
-
-            // SE MUESTRAN POR PANTALLA CADA UNO DE LAS CANTIDADES COMPRADAS Y EL TOTAL POR CADA ITEM
-            cout << "Cantidad de Café comprado: \t\t" << contadorCafe << ", para un total de = \t" << totalCafeTransacc << endl;
-            cout << "Cantidad de Jugo comprado: \t\t" << contadorJugo << ", para un total de = \t" << totalJugoTransacc << endl;
-            cout << "Cantidad de Empanadas compradas: \t\t" << contadorEmpanada << ", para un total de = \t" << totalEmpanadaTransacc << endl;
-            cout << "Cantidad de Sandwiches comprados: \t\t" << contadorSandwich << ", para un total de = \t" << totalSandwichTransacc << endl;
-            cout << "El subtotal de produtos es: " << subtotal << endl;
-
-            if (subtotal > 20000)
-                cout << "El monto superó los $20.000";
-
-            // SE ALMACENAN LAS CANTIDADES VENDIDAS POR CADA TRANSACCION
-            contadorGlobalEmpanada = contadorGlobalEmpanada + contadorEmpanada;
-            contadorGlobalCafe = contadorGlobalCafe + contadorCafe;
-            contadorGlobalJugo = contadorGlobalJugo + contadorJugo;
-            contadorGlobalSandwich = contadorGlobalSandwich + contadorSandwich;
-
-            // SE LE ASIGNAN CERO PARA LA SIGUIENTE TRANSACCION
-            contadorCafe = 0;
-            contadorJugo = 0;
-            contadorEmpanada = 0;
-            contadorSandwich = 0;
-            subtotal = 0;
-
-            numeroTransacciones++;
-        }
-        cantidadProdutos = 0;
-
-    } while (codigoProducto != 5);
-
-    if (contadorGlobalEmpanada > mayor)
-    {
-        mayor = contadorGlobalEmpanada;
-        letraMayor = 'E';
-    }
-    else if (contadorGlobalCafe > mayor)
-    {
-        mayor = contadorGlobalCafe;
-        letraMayor = 'C';
-    }
-    else if (contadorGlobalSandwich > mayor)
-    {
-        mayor = contadorGlobalSandwich;
-        letraMayor = 'S';
-    }
-    else if (contadorGlobalJugo > mayor)
-    {
-        mayor = contadorGlobalJugo;
-        letraMayor = 'J';
-    }
-    switch (letraMayor)
-    {
-    case 'E':
-        cout << "El producto más vendido es la Empanada\n";
-        break;
-    case 'C':
-        cout << "El producto más vendido es el Café\n";
-        break;
-    case 'J':
-        cout << "El producto más vendido es el Jugo Natural \n";
-        break;
-    case 'S':
-        cout << "El producto más vendido es el Sandwich\n";
-        break;
-    }
-    /*----------------------------------------FIN PROCESO----------------------------------------*/
-    /*----------------------------------------SALIDA----------------------------------------*/
-    cout << "Total de transacciones: " << numeroTransacciones << endl;
-    cout << "Total de cafe vendido: " << contadorGlobalCafe << endl;
-    cout << "Total de jugo vendido: " << contadorGlobalJugo << endl;
-    cout << "Total de sandwich vendido: " << contadorGlobalSandwich << endl;
-    cout << "Total de Empanada vendida: " << contadorGlobalEmpanada << endl;
-    cout << "Total vendido en la jornada\t" << totalVendidoJornada << endl;
+    } while (opcion != 5);
 
     return 0;
+}
+
+
+double sumar(double a, double b)
+{
+    return a + b;
 }
